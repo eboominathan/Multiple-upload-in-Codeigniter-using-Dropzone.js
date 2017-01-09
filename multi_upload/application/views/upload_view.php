@@ -8,17 +8,36 @@
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/basic.min.css') ?>">
 	<script type="text/javascript" src="<?php echo base_url('assets/jquery.js') ?>"></script>
 	<script type="text/javascript" src="<?php echo base_url('assets/dropzone.min.js') ?>"></script>
+	<style type="text/css">
+		.alert-success{
+			display: none;
+		}
+		
+	</style>
 </head>
 <body>
+<div class="alert alert-danger">Dropzone Disbled</div>
+<div class="alert  alert-success">Dropzone Enabled</div>
+
+<div class="container">
+<label>ENABLE / DISABLE</label>
+<select name="status"  id="status" class="form-control">
+		<option value="" selected="selected">Select</option>
+		<option value="Enable">Enable</option>
+		<option value="Disable">Disble</option>
+		option
+	</select>
+	</div>
 	<div class="dropzone">
 		<div class="dz-message">
 			<h3> Drag and Drop your files here Or Click here to upload</h3>
 		</div>
 	</div>
-
+	
 
 
 	<script type="text/javascript">
+
 		Dropzone.autoDiscover = false;
 		var file= new Dropzone(".dropzone",{
 			url: "<?php echo base_url('upload/upload_files') ?>",
@@ -28,9 +47,20 @@
 			paramName:"userfile",
 			// dictInvalidFileType:"Image files only allowed", // error message for other files on image only restriction 
 			addRemoveLinks:true,
+			autoProcessQueue: false
 		});
 
 
+		$('#status').change(function(){
+			if($(this).val()=='Enable'){
+				$('.alert-success').show();
+				$('.alert-danger').hide();		
+				file.processQueue();
+			}else{
+				$('.alert-success').hide();
+				$('.alert-danger').show();
+			}
+		});
 //Upload file onchange 
 
 file.on("sending",function(a,b,c){
